@@ -17,6 +17,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "lint": "eslint '**/*.js'",
     "build": "react-scripts build",
     "test": "react-scripts test '/src'",
     "eject": "react-scripts eject",
