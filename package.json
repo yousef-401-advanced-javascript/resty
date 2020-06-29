@@ -4,6 +4,7 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "./src/index.js",
   "dependencies": {
+    "gh-pages": "^3.1.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -17,7 +18,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "repository": {
     "type": "git",
@@ -29,7 +33,7 @@
   "bugs": {
     "url": "https://github.com/yousef-401-advanced-javascript/resty/issues"
   },
-  "homepage": "",
+  "homepage": "https://yousef-97.github.io/resty/",
   "browserslist": {
     "production": [
       ">0.2%",
