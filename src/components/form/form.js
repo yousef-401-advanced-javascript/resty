@@ -1,66 +1,48 @@
 import React from 'react';
 import './form.scss';
 
-class Form extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            url: '',
-            method: '',
-            request: {},
-        };
-    }
-    handleSubmit = (e) => {
+function Form(props) {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (this.state.url && this.state.method) {
-            let request = {
-                url: this.state.url,
-                method: this.state.method,
-            };
-            let url = '';
-            let method = '';
-            this.setState({ request, url, method });
-            e.target.reset();//try to remove it
+        try{
+            if (props.url && props.method) {
+                const fetching = await fetch(props.url);
+                const data = await fetching.json();
 
-        }else{
-            alert('missing info');
-        }
+                props.resultsHandler(data);
+                e.target.reset();
+            } else {
+                alert('missing info');
+            }
+
+        }catch(e){console.log(e)}
     }
-    handleChangeUrl = (e)=>{
-        let url = e.target.value;
-        this.setState({url});
-    }
-    handleChangeMethod = (e)=>{
-        let method = e.target.id;
-        this.setState({method});
-    }
+ 
 
+    console.log('results')
 
-    render() {
-        return (
-            <React.Fragment>
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        <span>URL: </span>
-                        <input name='url' id='urll' type='text' onChange={this.handleChangeUrl} />
-                        <button>GO!</button>
-                    </label>
-                    <label>
-                        <span id = "get"    className={this.state.method === 'get' ? 'active' : ''}onClick={this.handleChangeMethod}>GET</span>
-                        <span id = "post"   className={this.state.method === 'post' ? 'active' : ''} onClick={this.handleChangeMethod}>POST</span>
-                        <span id = "put"    className={this.state.method === 'put' ? 'active' : ''} onClick={this.handleChangeMethod}>PUT</span>
-                        <span id = "delete" className={this.state.method === 'delete' ? 'active' : ''}onClick={this.handleChangeMethod}>DELETE</span>
-                    </label>
-                </form>
-                <section className = "results">
-                    <span className="method">{this.state.request.method}</span>
-                    <span className="url">{this.state.request.url}</span>
+    return (
+        <React.Fragment>
+            <form onSubmit={handleSubmit}>
+                <label>
+                    <span>URL: </span>
+                    <input name='url' id='urll' type='text' onChange={props.handleChangeUrl} />
+                    <button>GO!</button>
+                </label>
+                <label>
+                    <span id="get" className={props.method === 'get' ? 'active' : ''} onClick={props.handleChangeMethod}>GET</span>
+                    <span id="post" className={props.method === 'post' ? 'active' : ''} onClick={props.handleChangeMethod}>POST</span>
+                    <span id="put" className={props.method === 'put' ? 'active' : ''} onClick={props.handleChangeMethod}>PUT</span>
+                    <span id="delete" className={props.method === 'delete' ? 'active' : ''} onClick={props.handleChangeMethod}>DELETE</span>
+                </label>
+            </form>
+            <section className="results">
+                <span className="method">{props.method}</span>
+                <span className="url">{props.url}</span>
 
-                </section>
-            </React.Fragment>
-        )
-    }
-
+            </section>
+        </React.Fragment>
+    )
 }
-
 export default Form;
