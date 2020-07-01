@@ -1,26 +1,50 @@
 import React from 'react';
 import './form.scss';
+import { v4 as uuidv4 } from 'uuid';
 
 function Form(props) {
-
+    let theBigObj = {};
     const handleSubmit = async (e) => {
         e.preventDefault();
         try{
             if (props.url && props.method) {
                 const fetching = await fetch(props.url);
                 const data = await fetching.json();
-
+                
                 props.resultsHandler(data);
-                e.target.reset();
+                // let stringData = JSON.stringify(data);
+                let id = uuidv4();
+                getItem();
+                console.log(id)
+                let inLocal = {
+                    method:props.method,
+                    url:props.url,
+                    results:data
+                };
+
+                theBigObj[id] = inLocal;
+                console.log('theBigObj',theBigObj[id])
+                let hi = JSON.stringify(theBigObj)
+                localStorage.setItem('history',hi );
+                console.log('finish event')
+                // e.target.reset();
             } else {
                 alert('missing info');
             }
-
+            
         }catch(e){console.log(e)}
     }
- 
-
-    console.log('results')
+    
+    
+    function getItem(){
+        let getting = localStorage.getItem('history');
+        if (getting){
+            console.log('get item',getting);
+            theBigObj = JSON.parse(getting);
+        }
+    }
+    // console.log('results')
+    // getItem();
 
     return (
         <React.Fragment>
