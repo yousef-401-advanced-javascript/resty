@@ -17,7 +17,7 @@ class App extends React.Component {
             method: 'get',
             url: '',
             counts: 0,
-            results: [],
+            results: {},
             headers: {},
         };
     }
@@ -38,8 +38,7 @@ class App extends React.Component {
     }
     render() {
         return (
-            // <React.Fragment>
-            <div>
+            <React.Fragment>
                 <Router>
                     <Header />
                     <Route exact path='/'>
@@ -59,14 +58,12 @@ class App extends React.Component {
                     <Route exact path='/history'>
                         <main>
                             <History />
-
                         </main>
                     </Route>
 
                     <Footer />
                 </Router>
-            </div>
-            /* // </React.Fragment> */
+            </React.Fragment >
 
         )
     }
