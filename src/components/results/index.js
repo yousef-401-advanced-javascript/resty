@@ -5,7 +5,7 @@ function Results(props) {
     // console.log('results in results', props.results)
     return (
         <>
-            <h3>hello</h3>
+            <h3>Results</h3>
             <div className='apiResults'>
             
             <pre>{JSON.stringify({Headers:props.headers, Response:props.results}, null, '\t')}</pre>

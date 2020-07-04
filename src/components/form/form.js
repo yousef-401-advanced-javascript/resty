@@ -3,48 +3,44 @@ import './form.scss';
 import { v4 as uuidv4 } from 'uuid';
 
 function Form(props) {
-    let theBigObj = {};
+    let theBigObj = [];
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try{
+        try {
             if (props.url && props.method) {
                 const fetching = await fetch(props.url);
                 const data = await fetching.json();
-                
+
                 props.resultsHandler(data);
-                // let stringData = JSON.stringify(data);
-                let id = uuidv4();
-                getItem();
-                console.log(id)
                 let inLocal = {
-                    method:props.method,
-                    url:props.url,
-                    results:data
+                    method: props.method,
+                    url: props.url,
+                    results: data,
+                    id: uuidv4(),
                 };
 
-                theBigObj[id] = inLocal;
-                console.log('theBigObj',theBigObj[id])
+                theBigObj.unshift(inLocal);
+                // console.log('theBigObj',theBigObj)
                 let hi = JSON.stringify(theBigObj)
-                localStorage.setItem('history',hi );
-                console.log('finish event')
+                localStorage.setItem('history', hi);
+                // console.log('finish event')
                 // e.target.reset();
             } else {
                 alert('missing info');
             }
-            
-        }catch(e){console.log(e)}
+
+        } catch (e) { console.log(e) }
     }
-    
-    
-    function getItem(){
+
+
+    function getItem() {
         let getting = localStorage.getItem('history');
-        if (getting){
-            console.log('get item',getting);
+        if (getting) {
+            // console.log('get item', getting);
             theBigObj = JSON.parse(getting);
         }
     }
-    // console.log('results')
-    // getItem();
+    getItem();
 
     return (
         <React.Fragment>
@@ -62,8 +58,16 @@ function Form(props) {
                 </label>
             </form>
             <section className="results">
-                <span className="method">{props.method}</span>
-                <span className="url">{props.url}</span>
+                <ul>{
+                    theBigObj.map(val => {
+                       return( <li key={val.id}> 
+                            <span className="method">{val.method}</span>
+                            <span className="url">{val.url}</span>
+                        </li>)
+                    })}
+                </ul>
+
+
 
             </section>
         </React.Fragment>
